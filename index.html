@@ -67,19 +67,17 @@
 
         function answerQuestion(questionId, answer) {
             const nextQuestionId = {
-                'question1': answer === 'yes' ? 'question2' : 'question1',
+                'question1': answer === 'no' ? 'question2' : 'question1',
                 'question2': answer === 'rarely' ? 'question2' :
                               answer === 'sometimes' ? 'question3' : 'question3',
                 'question3': answer === 'pro' ? 'question4' : 'question4',
-                'question4': answer === 'yes' ? 'question5' :
-                              answer === 'sometimes' ? 'question4' : 'question5',
+                'question4': answer === 'yes' ? 'question5' : 'question4',
                 'question5': answer === 'yes' ? 'question6' : 'question5',
-                'question6': answer === 'yes' ? 'result' : 'result'
+                'question6': answer === 'yes' ? 'result' : 'question6'
             };
 
-            if (questionId === 'question1' && answer === 'no') {
+            if (questionId === 'question1' && answer === 'yes') {
                 alert("Maybe you do, but we still don't trust you.");
-                return;
             }
             if (questionId === 'question2') {
                 if (answer === 'rarely') {
@@ -109,6 +107,14 @@
                     alert("STOP lying to yourself.");
                 }
             }
+            if (questionId === 'question6') {
+                if (answer === 'no') {
+                    alert("But they can help a lot!");
+                } else if (answer === 'maybe') {
+                    alert("Good to think about!");
+                }
+            }
+
             if (nextQuestionId[questionId]) {
                 document.getElementById(questionId).classList.add('hidden');
                 document.getElementById(nextQuestionId[questionId]).classList.remove('hidden');
