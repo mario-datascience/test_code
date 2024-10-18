@@ -1,1 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>🎉 Welcome to your Birthday Quiz! 🎉</h1>
+    <div id="quiz">
+        <div id="question1" class="question">
+            <p>Do you drive well?</p>
+            <button onclick="answerQuestion('question1', 'yes')">Yes</button>
+            <button onclick="answerQuestion('question1', 'no')">No</button>
+        </div>
+        <div id="question2" class="question hidden">
+            <p>Do you have good parking skills?</p>
+            <button onclick="answerQuestion('question2', 'yes')">Yes</button>
+            <button onclick="answerQuestion('question2', 'no')">No</button>
+        </div>
+        <div id="question3" class="question hidden">
+            <p>Rate your parking skills from 1 to 10:</p>
+            <input type="number" id="parkingRating" min="1" max="10">
+            <button onclick="nextQuestion('question3')">Submit</button>
+        </div>
+        <div id="question4" class="question hidden">
+            <p>Do you think you need assistance with parking?</p>
+            <button onclick="answerQuestion('question4', 'yes')">Yes</button>
+            <button onclick="answerQuestion('question4', 'no')">No</button>
+        </div>
+        <div id="result" class="hidden">
+            <p>We understand you; parking is not easy!</p>
+            <p>🎁 Here’s your birthday gift: a voucher for implementing sensors in your car! 🚗💖</p>
+        </div>
+    </div>
 
+    <script>
+        function answerQuestion(questionId, answer) {
+            const nextQuestionId = {
+                'question1': 'question2',
+                'question2': 'question3',
+                'question4': 'result'
+            };
+
+            if (questionId === 'question1' && answer === 'yes') {
+                alert("I don't trust that. Check the question again.");
+                return;
+            }
+            if (questionId === 'question2' && answer === 'yes') {
+                alert("I don't trust that. Check the question again.");
+                return;
+            }
+            if (questionId === 'question4' && answer === 'no') {
+                alert("I don't believe you. Check the question again.");
+                return;
+            }
+
+            document.getElementById(questionId).classList.add('hidden');
+            if (nextQuestionId[questionId]) {
+                document.getElementById(nextQuestionId[questionId]).classList.remove('hidden');
+            } else {
+                document.getElementById('result').classList.remove('hidden');
+            }
+        }
+
+        function nextQuestion(questionId) {
+            const rating = document.getElementById('parkingRating').value;
+            if (rating < 1 || rating > 10) {
+                alert("Please enter a number from 1 to 10.");
+                return;
+            }
+            document.getElementById(questionId).classList.add('hidden');
+            document.getElementById('question4').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
