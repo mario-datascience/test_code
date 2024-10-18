@@ -11,70 +11,108 @@
 </head>
 <body>
     <h1>🎉 Welcome to your Birthday Quiz! 🎉</h1>
-    <div id="quiz">
+
+    <div id="intro">
+        <p>Hello Alina, how are you old? Do you feel older today? I know sometimes getting older is not easy, and therefore we are offering you this quiz. This quiz requires your focus and attention, please go through it thoroughly and answer the questions with honesty.</p>
+        <button onclick="startQuiz()">Continue</button>
+    </div>
+
+    <div id="quiz" class="hidden">
         <div id="question1" class="question">
             <p>Do you drive well?</p>
             <button onclick="answerQuestion('question1', 'yes')">Yes</button>
             <button onclick="answerQuestion('question1', 'no')">No</button>
         </div>
         <div id="question2" class="question hidden">
-            <p>Do you have good parking skills?</p>
-            <button onclick="answerQuestion('question2', 'yes')">Yes</button>
-            <button onclick="answerQuestion('question2', 'no')">No</button>
+            <p>How often do you check your mirrors while driving?</p>
+            <button onclick="answerQuestion('question2', 'rarely')">Rarely</button>
+            <button onclick="answerQuestion('question2', 'sometimes')">Sometimes</button>
+            <button onclick="answerQuestion('question2', 'always')">Always</button>
         </div>
         <div id="question3" class="question hidden">
-            <p>Rate your parking skills from 1 to 10:</p>
-            <input type="number" id="parkingRating" min="1" max="10">
-            <button onclick="nextQuestion('question3')">Submit</button>
+            <p>How's your parallel parking?</p>
+            <button onclick="answerQuestion('question3', 'notGreat')">Not great</button>
+            <button onclick="answerQuestion('question3', 'canDo')">I can do it</button>
+            <button onclick="answerQuestion('question3', 'pro')">I'm a pro!</button>
         </div>
         <div id="question4" class="question hidden">
-            <p>Do you think you need assistance with parking?</p>
-            <button onclick="answerQuestion('question4', 'yes')">Yes</button>
+            <p>Do you think you need help with parking?</p>
             <button onclick="answerQuestion('question4', 'no')">No</button>
+            <button onclick="answerQuestion('question4', 'sometimes')">Sometimes</button>
+            <button onclick="answerQuestion('question4', 'yes')">Yes</button>
+        </div>
+        <div id="question5" class="question hidden">
+            <p>Do you consider having assistance while parking?</p>
+            <button onclick="answerQuestion('question5', 'no')">No</button>
+            <button onclick="answerQuestion('question5', 'sometimes')">Sometimes</button>
+            <button onclick="answerQuestion('question5', 'yes')">Yes</button>
+        </div>
+        <div id="question6" class="question hidden">
+            <p>Have you thought about getting parking sensors?</p>
+            <button onclick="answerQuestion('question6', 'no')">No</button>
+            <button onclick="answerQuestion('question6', 'maybe')">Maybe</button>
+            <button onclick="answerQuestion('question6', 'yes')">Yes</button>
         </div>
         <div id="result" class="hidden">
-            <p>We understand you; parking is not easy!</p>
-            <p>🎁 Here’s your birthday gift: a voucher for implementing sensors in your car! 🚗💖</p>
+            <p>As a reward for your honesty, here’s a voucher for parking sensors! 🚗💖 They can help a lot, making your parking experience easier and more fun! 🎁 Remember, it’s never too late to ask for help when you need it. Happy driving! 🎉</p>
         </div>
     </div>
 
     <script>
-        function answerQuestion(questionId, answer) {
-            const nextQuestionId = {
-                'question1': 'question2',
-                'question2': 'question3',
-                'question4': 'result'
-            };
-
-            if (questionId === 'question1' && answer === 'yes') {
-                alert("I don't trust that. Check the question again.");
-                return;
-            }
-            if (questionId === 'question2' && answer === 'yes') {
-                alert("I don't trust that. Check the question again.");
-                return;
-            }
-            if (questionId === 'question4' && answer === 'no') {
-                alert("I don't believe you. Check the question again.");
-                return;
-            }
-
-            document.getElementById(questionId).classList.add('hidden');
-            if (nextQuestionId[questionId]) {
-                document.getElementById(nextQuestionId[questionId]).classList.remove('hidden');
-            } else {
-                document.getElementById('result').classList.remove('hidden');
-            }
+        function startQuiz() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            document.getElementById('question1').classList.remove('hidden');
         }
 
-        function nextQuestion(questionId) {
-            const rating = document.getElementById('parkingRating').value;
-            if (rating < 1 || rating > 10) {
-                alert("Please enter a number from 1 to 10.");
+        function answerQuestion(questionId, answer) {
+            const nextQuestionId = {
+                'question1': answer === 'yes' ? 'question2' : 'question1',
+                'question2': answer === 'rarely' ? 'question2' :
+                              answer === 'sometimes' ? 'question3' : 'question3',
+                'question3': answer === 'pro' ? 'question4' : 'question4',
+                'question4': answer === 'yes' ? 'question5' :
+                              answer === 'sometimes' ? 'question4' : 'question5',
+                'question5': answer === 'yes' ? 'question6' : 'question5',
+                'question6': answer === 'yes' ? 'result' : 'result'
+            };
+
+            if (questionId === 'question1' && answer === 'no') {
+                alert("Maybe you do, but we still don't trust you.");
                 return;
             }
-            document.getElementById(questionId).classList.add('hidden');
-            document.getElementById('question4').classList.remove('hidden');
+            if (questionId === 'question2') {
+                if (answer === 'rarely') {
+                    alert("It might be time to pay a little more attention!");
+                } else if (answer === 'sometimes') {
+                    alert("Good, but there's always room for improvement!");
+                }
+            }
+            if (questionId === 'question3') {
+                if (answer === 'notGreat') {
+                    alert("Uh-oh! We need to practice!");
+                } else if (answer === 'canDo') {
+                    alert("Nice! Just keep practicing!");
+                }
+            }
+            if (questionId === 'question4') {
+                if (answer === 'no') {
+                    alert("Sure?! Check the question again.");
+                } else if (answer === 'sometimes') {
+                    alert("We don't believe you Alina, we know what is going on..");
+                }
+            }
+            if (questionId === 'question5') {
+                if (answer === 'no') {
+                    alert("Alina...");
+                } else if (answer === 'sometimes') {
+                    alert("STOP lying to yourself.");
+                }
+            }
+            if (nextQuestionId[questionId]) {
+                document.getElementById(questionId).classList.add('hidden');
+                document.getElementById(nextQuestionId[questionId]).classList.remove('hidden');
+            }
         }
     </script>
 </body>
