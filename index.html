@@ -78,6 +78,8 @@
         </div>
     </div>
 
+    <div id="fireworks"></div>
+
     <script>
         function startQuiz() {
             document.getElementById('intro').classList.add('hidden');
@@ -138,7 +140,45 @@
             if (nextQuestionId[questionId]) {
                 document.getElementById(questionId).classList.add('hidden');
                 document.getElementById(nextQuestionId[questionId]).classList.remove('hidden');
+            } else if (questionId === 'question6' && answer === 'yes') {
+                showFireworks();
+                document.getElementById('result').classList.remove('hidden');
             }
+        }
+
+        function showFireworks() {
+            const fireworksContainer = document.getElementById('fireworks');
+            fireworksContainer.style.display = 'block';
+            for (let i = 0; i < 5; i++) {
+                createFirework();
+            }
+        }
+
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.backgroundColor = getRandomColor();
+            firework.style.left = Math.random() * 100 + 'vw';
+            firework.style.bottom = Math.random() * 100 + 'vh';
+            firework.style.width = Math.random() * 100 + 20 + 'px';
+            firework.style.height = firework.style.width;
+            firework.style.transition = 'transform 1s ease-out';
+            document.getElementById('fireworks').appendChild(firework);
+            setTimeout(() => {
+                firework.style.transform = 'scale(0)';
+                setTimeout(() => {
+                    firework.remove();
+                }, 1000);
+            }, 100);
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
         }
     </script>
 </body>
